@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://www.cnblogs.com/gamedaybyday/p/10537318.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>Nodejs 使用Protobuf - gamedaybyday - 博客园</title>
+    <meta property="og:description" content="参考： Nodejs中使用Protobuf的.proto文件 为了在nodejs服务端使用proto 所以网上找了一些教程，这里实现下。 一 安装protobufjs 在服务端项目文件夹里shift+">
+    <link type="text/css" rel="stylesheet" href="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/bundle-arrow.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/bundle-arrow-mobile.css">
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/gamedaybyday/rss">
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/gamedaybyday/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/gamedaybyday/wlwmanifest.xml">
+    <script src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/osd.js.下载"></script><script src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/pubads_impl_rendering_2019070801.js.下载"></script><script async="" src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/analytics.js.下载"></script><script src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script>var currentBlogId=316630;var currentBlogApp='gamedaybyday',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/f(4).txt" as="script"><script type="text/javascript" src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/f(4).txt"></script><script src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/pubads_impl_2019070801.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-35/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+
+<!--done-->
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/gamedaybyday/">gamedaybyday</a><br>
+		
+	</div>
+</div>
+
+</div>
+<div id="mylinks">
+<!--done-->
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/gamedaybyday/">首页</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/gamedaybyday">联系</a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/gamedaybyday/rss">订阅</a><a id="blog_nav_rss_image" href="https://www.cnblogs.com/gamedaybyday/rss"><img src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/xml.gif" alt="订阅"></a>&nbsp;&nbsp;&nbsp;
+<a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a>
+</div>
+<div id="mytopmenu">
+	
+		<div id="blog_stats">
+<div class="blogStats">随笔 - 237&nbsp;
+文章 - 0&nbsp;评论 - 31&nbsp;trackbacks - 0
+</div></div>
+	
+</div>
+<div id="leftcontent">
+	
+		<div id="leftcontentcontainer">
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/06/01&#39;);return false;">&lt;</a></td><td align="center">2019年7月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2019/08/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">30</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td class="CalWeekendDay" align="center">20</td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalTodayDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td class="CalWeekendDay" align="center">27</td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script><br>
+			
+<!--done-->
+<div class="newsItem">
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/gamedaybyday/">gamedaybyday</a><br>园龄：<a href="https://home.cnblogs.com/u/gamedaybyday/" title="入园时间：2016-11-12">2年8个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/gamedaybyday/followers/">37</a><br>关注：<a href="https://home.cnblogs.com/u/gamedaybyday/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;06de82c7-3ea8-e611-845c-ac853d9f53ac&#39;)">+加关注</a></div><script>getFollowStatus('06de82c7-3ea8-e611-845c-ac853d9f53ac')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/gamedaybyday/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+
+</div></div><div id="sidebar_recentposts" class="sidebar-block">
+<h3 class="catListTitle">最新随笔</h3>
+<div class="RecentComment" id="RecentPosts">
+<ul style="word-break:break-all">
+<li><a href="https://www.cnblogs.com/gamedaybyday/p/10711630.html">1. 阿里云申请免费https证书 + IIS服务器安装</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/10649596.html">2. nodejs + typescirpt + vs code</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/10550805.html">3. NodeJs使用nodejs-websocket + protobuf</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/10537318.html">4. Nodejs 使用Protobuf</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/10516702.html">5. Windows10环境下使用VisualSVN server搭建SVN服务器</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/10486086.html">6. 微信小游戏下socket.io的使用</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/10396955.html">7. JS中实现种子随机数</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/10383373.html">8. 帧同步和状态同步</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/10364185.html">9. EgretPaper学习笔记一 （安装环境，新建项目）</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/10265561.html">10. 反编译微信小游戏</a></li>
+</ul>
+</div>
+</div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<!--done-->
+
+		<h1 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(240)</span></h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_0" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1111016.html">cocos</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_1" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1287648.html">DragonBones(5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_2" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/908333.html">Egret(80)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_3" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/938386.html">Egret3D(5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_4" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1076346.html">EgretApp(14)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_5" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/932440.html">eui(22)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_6" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/978787.html">Flash(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_7" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/938173.html">HTML(7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_8" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1111015.html">layabox(5)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_9" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/934972.html">nodejs(14)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_10" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/926610.html">php(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_11" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1111014.html">python(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_12" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1444420.html">Server(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_13" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1111017.html">unity</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_14" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1111019.html">工具软件(9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_15" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1233770.html">逻辑思维(4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_16" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1209863.html">日常(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_17" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/908344.html">微信(2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_18" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1215286.html">微信小游戏(29)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_19" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1105747.html">物理引擎(3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_20" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/975845.html">项目管理</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_21" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/939948.html">游戏案例(8)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_22" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1236952.html">游戏算法(16)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_23" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1243693.html">游戏体验(1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_0_Link_24" class="listitem" href="https://www.cnblogs.com/gamedaybyday/category/1236950.html">阅读学习(5)</a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(236)</span></h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_0" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2019/04.html">2019年4月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_1" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2019/03.html">2019年3月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_2" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2019/02.html">2019年2月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_3" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2019/01.html">2019年1月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_4" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/11.html">2018年11月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_5" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/10.html">2018年10月 (7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_6" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/09.html">2018年9月 (9)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_7" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/08.html">2018年8月 (22)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_8" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/07.html">2018年7月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_9" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/06.html">2018年6月 (54)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_10" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/05.html">2018年5月 (18)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_11" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/03.html">2018年3月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_12" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/02.html">2018年2月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_13" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2018/01.html">2018年1月 (7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_14" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/12.html">2017年12月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_15" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/11.html">2017年11月 (10)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_16" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/10.html">2017年10月 (14)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_17" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/09.html">2017年9月 (6)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_18" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/07.html">2017年7月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_19" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/06.html">2017年6月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_20" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/05.html">2017年5月 (7)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_21" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/04.html">2017年4月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_22" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/03.html">2017年3月 (8)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_23" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/02.html">2017年2月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_24" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2017/01.html">2017年1月 (19)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_25" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2016/12.html">2016年12月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="CatList_LinkList_1_Link_26" class="listitem" href="https://www.cnblogs.com/gamedaybyday/archive/2016/11.html">2016年11月 (16)</a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">Egret</h1>
+		
+	
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<h3 class="catListTitle">最新评论</h3>
+<div class="RecentComment" id="RecentComments">
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/gamedaybyday/p/10486086.html#4284769">1. Re:微信小游戏下socket.io的使用</a></li>
+        <li class="recent_comment_body">不错,cocos creator 小游戏，按照这个方案也可以，给力</li>
+        <li class="recent_comment_author">--porter_代码工作者</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/gamedaybyday/p/9780028.html#4153768">2. Re:微信小游戏 RES版本控制+缓存策略 (resplugin和ResSplitPlugin插件使用）</a></li>
+        <li class="recent_comment_body">博主方便加下联系方式不，还有些疑问、</li>
+        <li class="recent_comment_author">--araya</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/gamedaybyday/p/6082729.html#4139438">3. Re:Egret版本更新(H5增加版本号)</a></li>
+        <li class="recent_comment_body">@PajamaCat我现在用这个...</li>
+        <li class="recent_comment_author">--gamedaybyday</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/gamedaybyday/p/6082729.html#4138873">4. Re:Egret版本更新(H5增加版本号)</a></li>
+        <li class="recent_comment_body">Html5VersionController方法已经被废弃了, 谁有新办法么</li>
+        <li class="recent_comment_author">--PajamaCat</li>
+        <li class="recent_comment_title"><a href="https://www.cnblogs.com/gamedaybyday/p/9906542.html#4112840">5. Re:HTML5实现本地JSON文件的读写</a></li>
+        <li class="recent_comment_body">@liuyonggen= = 嗯，写错了...</li>
+        <li class="recent_comment_author">--gamedaybyday</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<h3 class="catListTitle">阅读排行榜</h3>
+<div class="RecentComment" id="TopViewPosts"> 
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/gamedaybyday/p/7028128.html">1. application/json和application/x-www-form-urlencoded区别(87729)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/6637933.html">2. NodeJS收发GET和POST请求(74869)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/6373312.html">3. Git学习笔记(SourceTree克隆、提交、推送、拉取等)(55170)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/7027461.html">4. PHP 允许Ajax跨域访问  (Access-Control-Allow-Origin)(11279)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/6489652.html">5. img通过canvas转成base64编码(10425)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<h3 class="catListTitle">评论排行榜</h3>
+<div class="RecentComment" id="TopCommentsPosts">
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="https://www.cnblogs.com/gamedaybyday/p/6082729.html">1. Egret版本更新(H5增加版本号)(5)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/6222230.html">2. 在Egret实现二维码长按识别(4)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/9060709.html">3. 四、微信小游戏 --- 开放数据域，好友排行榜的实现(4)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/8985100.html">4. 去面试H5游戏问的一些问题(3)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/6637933.html">5. NodeJS收发GET和POST请求(3)</a></li></ul></div>
+</div></div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/gamedaybyday/p/6373312.html">1. Git学习笔记(SourceTree克隆、提交、推送、拉取等)(3)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/7672980.html">2. TextureMerger1.6.6  一：Egret MovieClip的制作和使用(1)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/7054533.html">3. nodejs MySQL操作(1)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/7028128.html">4. application/json和application/x-www-form-urlencoded区别(1)</a></li><li><a href="https://www.cnblogs.com/gamedaybyday/p/9906542.html">5. HTML5实现本地JSON文件的读写(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script></div>		
+	
+</div>
+<div id="centercontent">
+	
+        <div id="post_detail">
+<!--done-->
+<div class="post">
+	<div class="postTitle">
+		<h1><a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/gamedaybyday/p/10537318.html">Nodejs 使用Protobuf</a></h1>
+	</div>
+	<div id="cnblogs_post_body" class="blogpost-body"><p>&nbsp;</p>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/u013052238/article/details/81010794" target="_blank">Nodejs中使用Protobuf的.proto文件</a></p>
+<p>&nbsp;</p>
+<p>为了在nodejs服务端使用proto</p>
+<p>所以网上找了一些教程，这里实现下。&nbsp;</p>
+<p>&nbsp;</p>
+<h2>一 安装protobufjs</h2>
+<p>在服务端项目文件夹里shift+右键，选择在此处打开命令窗口，输入</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_589403" class="syntaxhighlighter  as3"><div class="toolbar"><span><a href="https://www.cnblogs.com/gamedaybyday/p/10537318.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="as3 plain">npm install protobufjs</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p><img src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/1062174-20190315150521164-403945259.png" alt=""></p>
+<p>&nbsp;</p>
+<h2>二 .proto文件转成.js</h2>
+<p>随意写一个测试的login.proto</p>
+<p><img src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/1062174-20190315150803658-1093677197.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;将login.proto放在服务端项目文件夹下</p>
+<p><img src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/1062174-20190315150900398-971979304.png" alt=""></p>
+<p>&nbsp;</p>
+<p>shift+右键，打开命令窗口，生成js</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_244365" class="syntaxhighlighter  as3"><div class="toolbar"><span><a href="https://www.cnblogs.com/gamedaybyday/p/10537318.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="as3 plain">pbjs -t </code><code class="as3 keyword">static</code><code class="as3 plain">-module -w commonjs -o login.js login.proto</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>生成d.ts (服务端不需要，客户端需要)</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_512827" class="syntaxhighlighter  as3"><div class="toolbar"><span><a href="https://www.cnblogs.com/gamedaybyday/p/10537318.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="as3 plain">pbts -o login.d.ts login.js</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>　　</p>
+<p><img src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/1062174-20190315151050221-894341129.png" alt=""></p>
+<p>&nbsp;</p>
+<p>项目文件夹内生成了login.js文件</p>
+<p><img src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/1062174-20190315151108822-1893834473.png" alt=""></p>
+<p>&nbsp;</p>
+<h2>三 代码内使用</h2>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_713267" class="syntaxhighlighter  as3"><div class="toolbar"><span><a href="https://www.cnblogs.com/gamedaybyday/p/10537318.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="as3 variable">var</code> <code class="as3 plain">app = require(</code><code class="as3 string">'express'</code><code class="as3 plain">)();</code></div><div class="line number2 index1 alt1"><code class="as3 variable">var</code> <code class="as3 plain">http = require(</code><code class="as3 string">'http'</code><code class="as3 plain">).Server(app);</code></div><div class="line number3 index2 alt2"><code class="as3 variable">var</code> <code class="as3 plain">io = require(</code><code class="as3 string">'socket.io'</code><code class="as3 plain">)(http);</code></div><div class="line number4 index3 alt1"><code class="as3 spaces">&nbsp;</code>&nbsp;</div><div class="line number5 index4 alt2"><code class="as3 variable">var</code> <code class="as3 plain">loginProto = require(</code><code class="as3 string">"./login"</code><code class="as3 plain">);</code></div><div class="line number6 index5 alt1"><code class="as3 spaces">&nbsp;</code>&nbsp;</div><div class="line number7 index6 alt2"><code class="as3 spaces">&nbsp;</code>&nbsp;</div><div class="line number8 index7 alt1"><code class="as3 plain">app.</code><code class="as3 keyword">get</code><code class="as3 plain">(</code><code class="as3 string">'/'</code><code class="as3 plain">, </code><code class="as3 color3">function</code><code class="as3 plain">(req, res){</code></div><div class="line number9 index8 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">res.send(</code><code class="as3 string">'&lt;h1&gt;Welcome Realtime Server&lt;/h1&gt;'</code><code class="as3 plain">);</code></div><div class="line number10 index9 alt1"><code class="as3 plain">});</code></div><div class="line number11 index10 alt2"><code class="as3 spaces">&nbsp;</code>&nbsp;</div><div class="line number12 index11 alt1"><code class="as3 plain">http.listen(</code><code class="as3 value">3004</code><code class="as3 plain">, </code><code class="as3 color3">function</code><code class="as3 plain">(){</code></div><div class="line number13 index12 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">console.log(</code><code class="as3 string">'listening on *:3004'</code><code class="as3 plain">);</code></div><div class="line number14 index13 alt1"><code class="as3 plain">});</code></div><div class="line number15 index14 alt2">&nbsp;</div><div class="line number16 index15 alt1"><code class="as3 comments">//连接成功</code></div><div class="line number17 index16 alt2"><code class="as3 plain">io.on(</code><code class="as3 string">'connection'</code><code class="as3 plain">, </code><code class="as3 color3">function</code><code class="as3 plain">(socket){</code></div><div class="line number18 index17 alt1"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">console.log(</code><code class="as3 string">'a user connected'</code><code class="as3 plain">);</code></div><div class="line number19 index18 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 comments">//监听登录请求</code></div><div class="line number20 index19 alt1"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">socket.on(</code><code class="as3 string">'login'</code><code class="as3 plain">, </code><code class="as3 color3">function</code><code class="as3 plain">(data,callback){　　　　　　　　　</code></div><div class="line number21 index20 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 comments">//解析登录数据</code></div><div class="line number22 index21 alt1"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 variable">var</code> <code class="as3 plain">loginReqObj = loginProto.login.LoginReq.decode(data);</code></div><div class="line number23 index22 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">console.log(</code><code class="as3 string">"请求登录的用户:"</code><code class="as3 plain">,loginReqObj.uid);</code></div><div class="line number24 index23 alt1"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 comments">//返回登录响应</code></div><div class="line number25 index24 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">let loginResObj = loginProto.login.LoginRes.create();</code></div><div class="line number26 index25 alt1"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">loginResObj.code = </code><code class="as3 value">200</code><code class="as3 plain">;</code></div><div class="line number27 index26 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 variable">var</code> <code class="as3 plain">buffer = loginProto.login.LoginReq.encode(loginResObj).finish();</code></div><div class="line number28 index27 alt1"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">socket.emit(</code><code class="as3 string">'login'</code><code class="as3 plain">, buffer);</code></div><div class="line number29 index28 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">});</code></div><div class="line number30 index29 alt1"><code class="as3 plain">});</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>　　</p>
+<h2>其它：</h2>
+<h3><strong>&nbsp;一, 直接使用.proto文件</strong></h3>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_595800" class="syntaxhighlighter  as3"><div class="toolbar"><span><a href="https://www.cnblogs.com/gamedaybyday/p/10537318.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="as3 variable">var</code> <code class="as3 plain">ProtoBufJs = require(</code><code class="as3 string">"protobufjs"</code><code class="as3 plain">);</code></div><div class="line number2 index1 alt1"><code class="as3 variable">var</code> <code class="as3 plain">root = ProtoBufJs.loadSync(</code><code class="as3 string">"./zzz.proto"</code><code class="as3 plain">);</code></div><div class="line number3 index2 alt2"><code class="as3 variable">var</code> <code class="as3 plain">AccountList = root.lookupType(</code><code class="as3 string">"zzz.AccountList"</code><code class="as3 plain">);</code></div><div class="line number4 index3 alt1"><code class="as3 variable">var</code> <code class="as3 plain">Account = root.lookupType(</code><code class="as3 string">"zzz.Account"</code><code class="as3 plain">);</code></div><div class="line number5 index4 alt2"><code class="as3 variable">var</code> <code class="as3 plain">accountListObj = AccountList.create();</code></div><div class="line number6 index5 alt1"><code class="as3 keyword">for</code><code class="as3 plain">(</code><code class="as3 variable">var</code> <code class="as3 plain">i = </code><code class="as3 value">0</code><code class="as3 plain">; i &lt; </code><code class="as3 value">10</code><code class="as3 plain">; i++){</code></div><div class="line number7 index6 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 variable">var</code> <code class="as3 plain">accountObj = Account.create();</code></div><div class="line number8 index7 alt1"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">accountObj.accountName = </code><code class="as3 string">"断天涯"</code><code class="as3 plain">+i；</code></div><div class="line number9 index8 alt2"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">accountObj.pwd = </code><code class="as3 string">"密码"</code><code class="as3 plain">+i;</code></div><div class="line number10 index9 alt1"><code class="as3 spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="as3 plain">accountListObj.list.push(accountObj);</code></div><div class="line number11 index10 alt2"><code class="as3 plain">}</code></div><div class="line number12 index11 alt1"><code class="as3 variable">var</code> <code class="as3 plain">buffer = AccountList.encode(accountListObj).finish();</code></div><div class="line number13 index12 alt2"><code class="as3 plain">--------------------- </code></div><div class="line number14 index13 alt1"><code class="as3 plain">作者：断天涯zzz </code></div><div class="line number15 index14 alt2"><code class="as3 plain">来源：CSDN </code></div><div class="line number16 index15 alt1"><code class="as3 plain">原文：https:</code><code class="as3 comments">//blog.csdn.net/u013052238/article/details/81010794 </code></div><div class="line number17 index16 alt2"><code class="as3 plain">版权声明：本文为博主原创文章，转载请附上博文链接！</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>　　</p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/gamedaybyday/category/934972.html" target="_blank">nodejs</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(10537318,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;06de82c7-3ea8-e611-845c-ac853d9f53ac&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/gamedaybyday/" target="_blank"><img src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/gamedaybyday/">gamedaybyday</a><br>
+            <a href="https://home.cnblogs.com/u/gamedaybyday/followees">关注 - 0</a><br>
+            <a href="https://home.cnblogs.com/u/gamedaybyday/followers">粉丝 - 37</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;06de82c7-3ea8-e611-845c-ac853d9f53ac&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(10537318,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(10537318,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/gamedaybyday/p/10516702.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/gamedaybyday/p/10516702.html" title="发布于2019-03-12 14:54">Windows10环境下使用VisualSVN server搭建SVN服务器</a><br><a href="https://www.cnblogs.com/gamedaybyday/p/10550805.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/gamedaybyday/p/10550805.html" title="发布于2019-03-18 10:39">NodeJs使用nodejs-websocket + protobuf</a><br></div>
+</div>
+
+
+	<div class="postDesc">posted on <span id="post-date">2019-03-15 15:21</span> <a href="https://www.cnblogs.com/gamedaybyday/">gamedaybyday</a> 阅读(<span id="post_view_count">690</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=10537318" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/gamedaybyday/p/10537318.html#" onclick="AddToWz(10537318);return false;">收藏</a></div>
+</div>
+<script type="text/javascript">var allowComments=true,cb_blogId=316630,cb_entryId=10537318,cb_blogApp=currentBlogApp,cb_blogUserGuid='06de82c7-3ea8-e611-845c-ac853d9f53ac',cb_entryCreatedDate='2019/3/15 15:21:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/gamedaybyday/p/10537318.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/gamedaybyday/p/10537318.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-工控&#39;)">【推荐】超50万C++/C#源码: 大型实时仿真组态图形源码</a><br><a href="https://www.grapecity.com.cn/developer/spreadjs?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-SpreadJS&#39;)">【前端】SpreadJS表格控件，可嵌入系统开发的在线Excel</a><br><a href="https://group.cnblogs.com/topic/81799.html" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-Dell&#39;)">【戴尔】Vostro 5481小机身大视野，新一代职场搭档就是它</a><br><a href="https://q.cnblogs.com/" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-博问&#39;)">【推荐】程序员问答平台，解决您开发中遇到的技术难题</a><br></div>
+<div id="opt_under_post"></div>
+<script async="async" src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c1" class="c_ad_block">
+    <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CIbL3pHCzOMCFQR8iwodxcwJsA"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none; display: inline-block; width: 300px; height: 250px;"><iframe frameborder="0" src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/container.html" id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="" scrolling="no" marginwidth="0" marginheight="0" width="300" height="250" data-is-safeframe="true" sandbox="allow-forms allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" data-google-container-id="1" style="border: 0px; vertical-align: bottom;" data-load-complete="true"></iframe></div></div>
+</div>
+<div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/gamedaybyday/p/10550805.html" target="_blank" onclick="clickRecomItmem(10550805)">NodeJs使用nodejs-websocket</a><br>·  <a href="https://www.cnblogs.com/gamedaybyday/p/9219946.html" target="_blank" onclick="clickRecomItmem(9219946)">【咸鱼教程】protobuf在websocket通讯中的使用</a><br>·  <a href="https://www.cnblogs.com/parameter/p/7170715.html" target="_blank" onclick="clickRecomItmem(7170715)">nodejs中使用protobuf遇见的环境变量问题</a><br>·  <a href="https://www.cnblogs.com/qiufang/p/8762299.html" target="_blank" onclick="clickRecomItmem(8762299)">使用nodejs编写cli工具</a><br>·  <a href="https://www.cnblogs.com/gamedaybyday/p/10649596.html" target="_blank" onclick="clickRecomItmem(10649596)">nodejs+typescirpt+vscode</a><br></div></div>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CPuh3ZHCzOMCFQR8iwodxcwJsA"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" data-load-complete="true" src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/628671/" target="_blank">知否|太空中待太久会失去骨骼变一坨肉？最好备点葡萄酒</a><br> ·  <a href="https://news.cnblogs.com/n/628670/" target="_blank">法军方雇科幻作家预测未来威胁</a><br> ·  <a href="https://news.cnblogs.com/n/628669/" target="_blank">一线 | 社交平台Snap续写神奇：二季度狂揽1300万用户</a><br> ·  <a href="https://news.cnblogs.com/n/628668/" target="_blank">美国司法部宣布对大型科技公司展开广泛反垄断审查</a><br> ·  <a href="https://news.cnblogs.com/n/628667/" target="_blank">优于现有量子计算机性能 日本量子退火机真有这么牛？</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	
+<!--done-->
+<div class="footer">
+	
+	Copyright ©2019 gamedaybyday Powered by: <a href="http://www.cnblogs.com/" class="footerlink">博客园</a> 模板提供：<a href="http://blog.hjenglish.com/" class="footerlink">沪江博客</a><br>
+</div>
+</div>
+
+
+
+
+
+
+<iframe id="google_osd_static_frame_5539976873851" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./Nodejs 使用Protobuf - gamedaybyday - 博客园_files/saved_resource(1).html"></iframe></body></html>

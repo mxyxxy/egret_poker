@@ -1,0 +1,2 @@
+node appWindow.js
+pause
